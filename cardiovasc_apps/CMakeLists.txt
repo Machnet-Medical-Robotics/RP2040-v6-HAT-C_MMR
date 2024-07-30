@@ -1,0 +1,1 @@
+add_subdirectory(node_ip_x_app)

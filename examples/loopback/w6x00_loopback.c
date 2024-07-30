@@ -44,7 +44,7 @@
 /* Port */
 #define PORT_TCP_SERVER 5000
 #define PORT_TCP_CLIENT 5001
-#define PORT_TCP_CLIENT_DEST    5002
+#define PORT_TCP_CLIENT_DEST 4243
 #define PORT_UDP 5003
 
 #define PORT_TCP_SERVER6 5004
@@ -55,12 +55,12 @@
 #define PORT_TCP_SERVER_DUAL 5008
 
 #define IPV4
-#define IPV6
+//#define IPV6
 
 #ifdef IPV4
-#define TCP_SERVER
+//#define TCP_SERVER
 #define TCP_CLIENT
-#define UDP
+//#define UDP
 #endif
 
 #ifdef IPV6
@@ -112,7 +112,7 @@ static wiz_NetInfo g_net_info =
 };
 
 uint8_t tcp_client_destip[] = {
-    192, 168, 50, 103
+    192, 168, 11, 10
 };
 
 uint8_t tcp_client_destip6[] = {

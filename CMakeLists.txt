@@ -20,6 +20,21 @@ project(${PROJECT_NAME} C CXX ASM)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 
+# MMR: IMPORTANT: In order to solve a build issue with these two executables, we avoid building them here
+# See: https://forum.wiznet.io/t/topic/11673
+
+# MMR: Avoid building 'pioasm'
+add_executable(Pioasm IMPORTED)
+set_property(TARGET Pioasm PROPERTY IMPORTED_LOCATION
+"C:\\Program Files\\Raspberry Pi\\Pico SDK v1.5.1\\picotool\\pioasm.exe")
+set(Pioasm_FOUND 1)
+
+# MMR: Avoid building 'elf2uf2'
+add_executable(ELF2UF2 IMPORTED)
+set_property(TARGET ELF2UF2 PROPERTY IMPORTED_LOCATION
+"C:\\Program Files\\Raspberry Pi\\Pico SDK v1.5.1\\picotool\\elf2uf2.exe")
+set(ELF2UF2_FOUND 1)
+
 # Initialize the SDK
 pico_sdk_init()
 
@@ -52,14 +67,19 @@ if(NOT DEFINED PORT_DIR)
     message(STATUS "PORT_DIR = ${PORT_DIR}")
 endif()
 
-# Turn off mbedtls test mode 
+# Turn off mbedtls test mode
 set(ENABLE_PROGRAMS OFF CACHE BOOL "Build mbedtls programs")
 set(ENABLE_TESTING OFF CACHE BOOL "Build mbedtls testing")
 add_definitions(-DMBEDTLS_CONFIG_FILE="${PORT_DIR}/mbedtls/inc/ssl_config.h")
 add_definitions(-DSET_TRUSTED_CERT_IN_SAMPLES)
+# MMR: remove these warnings
+add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 
 # Hardware-specific examples in subdirectories:
 add_subdirectory(examples)
+
+# MMR: cardiovasc apps subdirectory:
+add_subdirectory(cardiovasc_apps)
 
 # Add libraries in subdirectories
 add_subdirectory(${CMAKE_SOURCE_DIR}/libraries)
